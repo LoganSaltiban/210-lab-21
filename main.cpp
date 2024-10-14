@@ -52,12 +52,12 @@ class DoublyLinkedList {
         };
 
         struct Node {
-            Goat* goatPtr;
+            Goat goatData;
             Node* prev;
             Node* next;
 
             Node(Goat& goatObject, Node* p = nullptr, Node* n = nullptr) {
-                goatPtr = &goatObject;
+                goatData = goatObject;
                 prev = p;
                 next = n;
             }
@@ -70,6 +70,13 @@ class DoublyLinkedList {
     public:
         // constructor
         DoublyLinkedList() { head = nullptr; tail = nullptr; }
+
+        void push_back_goat()
+        {
+            Goat newGoat;
+            push_back(newGoat);
+        }
+
         void push_back(Goat& goatObject) {
             Node* newNode = new Node(goatObject);
             if (!tail) // if there's no tail, the list is empty
@@ -80,6 +87,13 @@ class DoublyLinkedList {
             tail = newNode;
             }
         }
+
+        void push_front_goat()
+        {
+            Goat newGoat;
+            push_front(newGoat);
+        }
+
         void push_front(Goat& goatObject) {
             Node* newNode = new Node(goatObject);
             if (!head) // if there's no head, the list is empty
@@ -130,7 +144,7 @@ void delete_node(Goat& goatObject) {
 
     Node* temp = head;
 
-    while (temp && temp->goatPtr != &goatObject)
+    while (temp && temp->goatData.getGoatName() != goatObject.getGoatName())
         temp = temp->next;
     
     if (!temp) return; // Value not found
@@ -158,9 +172,9 @@ void print() {
     }
 
     while (current) {
-        cout << "Name: " << current->goatPtr->getGoatName() << endl;
-        cout << "Age: " << current->goatPtr->getGoatAge() << endl;
-        cout << "Color: " << current->goatPtr->getGoatColor() << endl;
+        cout << "Name: " << current->goatData.getGoatName() << endl;
+        cout << "Age: " << current->goatData.getGoatAge() << endl;
+        cout << "Color: " << current->goatData.getGoatColor() << endl;
         cout << endl;
         current = current->next;
     }
@@ -177,9 +191,9 @@ void print_reverse() {
     }
 
     while (current) {
-        cout << "Name: " << current->goatPtr->getGoatName() << endl;
-        cout << "Age: " << current->goatPtr->getGoatAge() << endl;
-        cout << "Color: " << current->goatPtr->getGoatColor() << endl;
+        cout << "Name: " << current->goatData.getGoatName() << endl;
+        cout << "Age: " << current->goatData.getGoatAge() << endl;
+        cout << "Color: " << current->goatData.getGoatColor() << endl;
         cout << endl;
         current = current->prev;
     }
@@ -204,12 +218,8 @@ int main() {
     int size = rand() % (MAX_LS-MIN_LS+1) + MIN_LS;
 
     for (int i = 0; i < size; ++i)
-    {
-        Goat newGoat;
-        goatList.push_back(newGoat);
+        goatList.push_back_goat();
 
-    }
-    
 cout << "List forward: ";
 goatList.print();
 cout << "List backward: ";
